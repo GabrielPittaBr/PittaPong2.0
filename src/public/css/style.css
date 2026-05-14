@@ -207,12 +207,15 @@ body {
 .produto-card .produto-img-wrapper {
     background-color: var(--cinza-fundo-item);
     overflow: hidden;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .produto-card .produto-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.2s ease;
 }
 

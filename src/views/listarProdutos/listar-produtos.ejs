@@ -1,12 +1,12 @@
 <%- include('../partials/header') %>
 
     <main class="container py-4">
-        <h1 class="fw-bold mb-4" style="font-size: 2.5rem;">
+        <h1 class="fw-bold mb-4 text-black" style="font-size: 2.5rem;">
             <%= typeof categoriaAtiva !=='undefined' && categoriaAtiva ? categoriaAtiva : 'Todos os Produtos' %>
         </h1>
 
         <div class="row g-4">
-            <!-- Filters Sidebar -->
+            <!-- Sidebar de Filtros -->
             <div class="col-lg-3">
                 <div class="filtros p-3">
                     <h2 class="fs-5 pb-2 mb-3">Filtros</h2>
@@ -37,9 +37,8 @@
                 </div>
             </div>
 
-            <!-- Product Grid -->
             <div class="col-lg-9">
-                <!-- Category Banner -->
+                <!-- Banner cara pittapong -->
                 <div class="banner-categoria mb-4">
                     <img src="/img/PittaPongJogadorBanner.png" alt="Banner da categoria">
                     <div class="banner-texto">
