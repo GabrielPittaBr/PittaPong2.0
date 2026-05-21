@@ -1,6 +1,6 @@
 # PittaPong2.0
 
-Versão atualizada e funcional do meu antigo trabalho, PittaPong, um site e-commerce de artigos esportivos de tênis de mesa. Trabalho: Desenvolvimento de API REST Escalável com Node.js e MongoDB. O projeto consiste em um Catálogo de Produtos com atributos dinâmicos, contando com sistema de autenticação, persistência de dados em banco NoSQL (MongoDB) e upload de imagens (Cloudinary).
+Versão atualizada e funcional do meu antigo trabalho, PittaPong, um site e-commerce de artigos esportivos de tênis de mesa. Trabalho: Desenvolvimento de uma aplicação estruturada no padrão MVC (Model-View-Controller) com Node.js e MongoDB. O projeto consiste em um Catálogo de Produtos com atributos dinâmicos, contando com sistema de autenticação, persistência de dados em banco NoSQL (MongoDB) e upload de imagens (Cloudinary).
 
 ## Tecnologias Utilizadas
 - **Node.js** & **Express**
