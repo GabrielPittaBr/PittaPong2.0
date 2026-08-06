@@ -14,8 +14,8 @@ Versão atualizada e funcional do meu antigo trabalho, PittaPong, um site e-comm
 ## Como Rodar o Projeto Localmente
 
 ### 1. Pré-requisitos
-- [Node.js](https://nodejs.org/) instalado.
-- Banco de dados MongoDB em execução (pode ser local ou via cluster online no [MongoDB Atlas](https://www.mongodb.com/atlas/database)).
+- [Node.js](https://nodejs.org/) versão 20 ou superior.
+- Um banco de dados MongoDB. O projeto usa um cluster no [MongoDB Atlas](https://www.mongodb.com/atlas/database) (o tier gratuito M0 é suficiente), mas uma instância local também funciona — basta ajustar a `MONGO_URI`.
 - Conta no [Cloudinary](https://cloudinary.com/) (para habilitar o upload e gerenciamento de imagens dos produtos).
 
 ### 2. Clonar o Repositório
@@ -35,28 +35,58 @@ Existe um arquivo chamado `.env-exemplo` na raiz do repositório. Crie um arquiv
 
 ```env
 PORT = 3000
-MONGO_URI = sua_string_do_mogodb
+NODE_ENV = development
+MONGO_URI = mongodb+srv://usuario:senha@cluster.xxxxx.mongodb.net/pittapong-db?retryWrites=true&w=majority
 CLOUD_NAME = seu_cloud_name_cloudinary
 API_KEY = sua_api_key_cloudinary
-API_SECRET = seu_api_secret_cloudinary
+API_SECRET = sua_api_secret_cloudinary
 JWT_SECRET = sua_jwt_secret
+SEED_USER_PASSWORD = senha_da_conta_semente
 ```
+
+> **Atenção à `MONGO_URI`:** a string copiada do Atlas vem sem o nome do banco. É preciso inseri-lo entre o host e a `?` (no exemplo acima, `/pittapong-db`). Sem ele o driver conecta ao banco `test`, a aplicação sobe sem erro nenhum e o catálogo aparece vazio. Se a senha contiver caracteres especiais (`@ : / ? # [ ] %`), use percent-encoding.
 
 ### 5. Popular o Banco de Dados com Dados Iniciais (Opcional)
 Para iniciar a aplicação com alguns produtos de exemplo já cadastrados, você pode rodar o script de seed. (Verifique se sua variável `MONGO_URI` já está corretamente configurada).
 ```bash
-node src/seed.js
+npm run seed
 ```
+O script é idempotente: rodá-lo mais de uma vez não duplica produtos nem usuários. A conta criada é `pittapong@pittapong.com`, com a senha definida em `SEED_USER_PASSWORD`.
 
 ### 6. Iniciar o Servidor
 Para rodar a aplicação, execute o comando:
 ```bash
-node src/app.js
+npm start
 ```
 
 Acesse o projeto em seu navegador: [http://localhost:3000](http://localhost:3000)
 
+## Deploy
+
+A aplicação está hospedada no [Render](https://render.com/) como Web Service, com o banco em um cluster do MongoDB Atlas.
+
+**URL de produção:** `https://SEU-SERVICO.onrender.com` _(substitua pela URL do seu serviço)_
+
+### Configuração do serviço
+
+| Campo | Valor |
+|---|---|
+| Build Command | `npm install` |
+| Start Command | `npm start` |
+| Region | a mesma região do cluster no Atlas, para reduzir latência |
+
+As variáveis de ambiente são cadastradas na dashboard do Render, **não** em arquivo — o `.env` está no `.gitignore` e nunca vai para o repositório. São as mesmas do `.env-exemplo`, com duas diferenças: `NODE_ENV` deve ser `production` (é o que ativa os cookies `secure` e o `trust proxy`), e `PORT` **não** deve ser cadastrada, já que a plataforma a injeta automaticamente.
+
+No Atlas, o Network Access precisa liberar `0.0.0.0/0`: o tier gratuito do Render não oferece IP de saída fixo, então uma allowlist por IP não é viável. A proteção do banco fica por conta da autenticação SCRAM, do TLS e de um usuário com permissão `readWrite` restrita ao banco da aplicação.
+
+Cada push na branch `main` dispara um novo deploy automaticamente.
+
+Os detalhes da migração do MongoDB local para o Atlas, incluindo os erros de conexão mais comuns e como diagnosticá-los, estão em [`docs/deploy-mongodb-atlas-render.md`](docs/deploy-mongodb-atlas-render.md).
+
 ## Endpoints da API
+
+### Sistema
+- `GET /health` - Health check da aplicação. Responde `200 OK` sem consultar o banco de dados.
 
 ### Produtos
 - `GET /produtos` - Retorna a lista de todos os produtos cadastrados em formato JSON.
