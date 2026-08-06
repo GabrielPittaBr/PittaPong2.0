@@ -1,5 +1,7 @@
 # PittaPong2.0
 
+**Acesse o projeto no ar: [pittapong.onrender.com](https://pittapong.onrender.com)**
+
 Versão atualizada e funcional do meu antigo trabalho, PittaPong, um site e-commerce de artigos esportivos de tênis de mesa. Trabalho: Desenvolvimento de uma aplicação estruturada no padrão MVC (Model-View-Controller) com Node.js e MongoDB. O projeto consiste em um Catálogo de Produtos com atributos dinâmicos, contando com sistema de autenticação, persistência de dados em banco NoSQL (MongoDB) e upload de imagens (Cloudinary).
 
 ## Tecnologias Utilizadas
@@ -65,7 +67,7 @@ Acesse o projeto em seu navegador: [http://localhost:3000](http://localhost:3000
 
 A aplicação está hospedada no [Render](https://render.com/) como Web Service, com o banco em um cluster do MongoDB Atlas.
 
-**URL de produção:** `https://SEU-SERVICO.onrender.com` _(substitua pela URL do seu serviço)_
+**URL de produção:** https://pittapong.onrender.com
 
 ### Configuração do serviço
 
