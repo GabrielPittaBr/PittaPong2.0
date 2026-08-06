@@ -2,6 +2,13 @@ const Usuario = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// `secure` só em produção: em http://localhost o cookie precisa trafegar sem TLS
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax'
+};
+
 exports.register = async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
@@ -29,7 +36,7 @@ exports.register = async (req, res) => {
     );
 
     res.cookie('token', token, {
-      httpOnly: true,
+      ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
 
@@ -60,7 +67,7 @@ exports.login = async (req, res) => {
     );
 
     res.cookie('token', token, {
-      httpOnly: true,
+      ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
 
@@ -71,6 +78,7 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie('token');
+  // Atributos precisam bater com os do res.cookie, senão o navegador não remove
+  res.clearCookie('token', cookieOptions);
   res.redirect('/');
 };

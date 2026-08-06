@@ -28,7 +28,9 @@ async function seed() {
 
     let pittaPongUser = await Usuario.findOne({ email: 'pittapong@pittapong.com' });
     if (!pittaPongUser) {
-      const hashedPassword = await bcrypt.hash('PittaPong123!', 10);
+      // Em produção defina SEED_USER_PASSWORD — o fallback está num repositório público
+      const senhaSemente = process.env.SEED_USER_PASSWORD || 'PittaPong123!';
+      const hashedPassword = await bcrypt.hash(senhaSemente, 10);
       pittaPongUser = new Usuario({
         nome: 'PittaPong',
         email: 'pittapong@pittapong.com',

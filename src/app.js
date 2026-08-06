@@ -12,6 +12,12 @@ const optionalAuth = require('./middlewares/optionalAuth');
 
 const app = express();
 
+// Em produção o Render termina o TLS no proxy e encaminha por HTTP interno.
+// Sem isso o Express considera a requisição insegura e não envia cookies `secure`.
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 // View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Populate user info on every page request (non-blocking)
 app.use(optionalAuth);
+
+// ── Health check (sem consulta ao banco) ──
+app.get('/health', (req, res) => res.status(200).send('ok'));
 
 // ── API de produtos (JSON) ──
 app.use('/produtos', produtoRoutes);
@@ -52,4 +61,7 @@ conectarDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
   });
+}).catch((err) => {
+  console.error("Falha ao iniciar a aplicação:", err.message);
+  process.exit(1);
 });

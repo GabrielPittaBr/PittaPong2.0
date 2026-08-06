@@ -2,9 +2,14 @@
   "name": "pittapong2.0",
   "version": "1.0.0",
   "description": "Versão atualizada e funcional do meu antigo trabalho, PittaPong, um site e-commerce de artigos esportivos de tênis de mesa. Trabalho: Desenvolvimento de API REST Escalável com Node.js e MongoDB1.",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
+    "start": "node src/app.js",
+    "seed": "node src/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "repository": {
     "type": "git",
