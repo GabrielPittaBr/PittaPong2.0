@@ -2,7 +2,7 @@
 
 <img src="src/public/img/PittaPong%20Logo.png" alt="PittaPong Logo" width="140" />
 
-# 🏓 PittaPong 2.0
+# PittaPong 2.0
 
 **E-commerce de artigos esportivos de tênis de mesa** — catálogo de produtos com atributos dinâmicos, autenticação e upload de imagens, construído sobre uma arquitetura MVC com Node.js e MongoDB.
 
